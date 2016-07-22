@@ -545,7 +545,24 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#starting-from-sample">3.3. Starting from a sample</a></li>
 </ul>
 </li>
-<li><a href="#aggregation-configuration">4. Aggregation configuration</a></li>
+<li><a href="#aggregation-configuration">4. Node retrieval configuration</a>
+<ul class="sectlevel2">
+<li><a href="#aggregation-health">4.1. Health aggregator</a></li>
+<li><a href="#aggregation-index">4.2. Index aggregator</a></li>
+<li><a href="#aggregation-mappings">4.3. Mappings aggregator</a>
+<ul class="sectlevel3">
+<li><a href="#_prerequisites">4.3.1. Prerequisites</a></li>
+</ul>
+</li>
+<li><a href="#aggregation-pact">4.4. Pact aggregator</a></li>
+<li><a href="#aggregation-extending">4.5. Extending existing aggregators</a></li>
+<li><a href="#aggregation-writing-your-own">4.6. Writing your own aggregator</a>
+<ul class="sectlevel3">
+<li><a href="#_dealing_with_exceptions">4.6.1. Dealing with exceptions</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#samples">5. Samples</a></li>
 <li><a href="#extending">6. Extending the Microservices Dashboard</a></li>
 </ul>
@@ -634,6 +651,18 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect1">
 <h2 id="getting-started"><a class="anchor" href="#getting-started"></a>2. Getting started</h2>
 <div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The absolutely simplest way (although not the default way) to get up and running is by <a href="#starting-from-sample">cloning and running a simple sample</a>. This is especially handy for people not familiar with Java or maven.
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="default-set-up"><a class="anchor" href="#default-set-up"></a>2.1. Default set up</h3>
 <div class="paragraph">
@@ -734,7 +763,7 @@ There are a number of other ways to set up the Microservices Dashboard. Please r
 </div>
 <div class="paragraph">
 <p>You can now configure integrations with your ecosystem to start aggregating node information.
-More details on how to do this can be found at the <a href="#aggregation-configuration">Aggregation configuration</a> section.</p>
+More details on how to do this can be found at the <a href="#aggregation-configuration">Node retrieval configuration</a> section.</p>
 </div>
 </div>
 </div>
@@ -881,10 +910,20 @@ There are other samples available as well. See the <a href="#samples">Samples</a
 </div>
 </div>
 <div class="sect1">
-<h2 id="aggregation-configuration"><a class="anchor" href="#aggregation-configuration"></a>4. Aggregation configuration</h2>
+<h2 id="aggregation-configuration"><a class="anchor" href="#aggregation-configuration"></a>4. Node retrieval configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Currently three aggregators are provided out-of-the-box:</p>
+<p>Nodes are retrieved by node aggregators.
+Each of these aggregators calls certain resources which expose information that can be mapped to nodes.
+These nodes are then shown on the dashboard in one of the four columns.
+You can simply use the default aggregators and configure your ecosystem as we have intended it to be configured, or you can extend or override them.
+You can even write your own aggregators for resources we haven&#8217;t covered yet.
+Configuring the existing aggregators is explained below.
+If you wish to extend or override an aggregator, have a look at <a href="#aggregation-extending">Extending existing aggregators</a>.
+And finally writing your own aggregator is covered in the <a href="#aggregation-writing-your-own">Writing your own aggregator</a> section.</p>
+</div>
+<div class="paragraph">
+<p>Currently four aggregators are provided out-of-the-box:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -895,12 +934,134 @@ There are other samples available as well. See the <a href="#samples">Samples</a
 <p>Index aggregator <em>(requires service discovery)</em></p>
 </li>
 <li>
+<p>Mappings aggregator <em>(requires service discovery)</em></p>
+</li>
+<li>
 <p>Pact aggregator <em>(requires pact broker)</em></p>
 </li>
 </ul>
 </div>
+<div class="sect2">
+<h3 id="aggregation-health"><a class="anchor" href="#aggregation-health"></a>4.1. Health aggregator</h3>
 <div class="paragraph">
 <p>More information will be added as soon as possible.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="aggregation-index"><a class="anchor" href="#aggregation-index"></a>4.2. Index aggregator</h3>
+<div class="paragraph">
+<p>More information will be added as soon as possible.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="aggregation-mappings"><a class="anchor" href="#aggregation-mappings"></a>4.3. Mappings aggregator</h3>
+<div class="paragraph">
+<p>The mappings aggregator aggregates nodes from mappings information exposed by <a href="http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#production-ready">Spring Boot&#8217;s Actuator</a>.</p>
+</div>
+<div class="sect3">
+<h4 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>4.3.1. Prerequisites</h4>
+<div class="paragraph">
+<p>This aggregator uses service discovery to find available services.
+We are using the <code>org.springframework.cloud.client.discovery.DiscoveryClient</code> abstraction, which means that we support any implementation of said interface.
+At the time of writing Eureka, Zookeeper and Consul.io are supported, although the Spring Cloud team might add more at any moment.</p>
+</div>
+<div class="paragraph">
+<p>In case Spring Boot is not used in a microservice you would like to retrieve mappings of, your service must comply to the mappings format exposed by Spring Boot under the <code>/mappings</code> endpoint.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example of a mappings response</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="json">{
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">{[/endpoint1],methods=[GET],produces=[application/json]}</span><span class="delimiter">&quot;</span></span> : {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">bean</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">requestMappingHandlerMapping</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">method</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">public java.util.Date be.ordina.controllers.Endpoint1Controller.retrieveDate(java.util.Date)</span><span class="delimiter">&quot;</span></span>
+  },
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">{[/endpoint2],methods=[GET, POST]}</span><span class="delimiter">&quot;</span></span> : {
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">bean</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">requestMappingHandlerMapping</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">method</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">public void be.ordina.controllers.Endpoint2Controller.createInformation(be.ordina.model.Information)</span><span class="delimiter">&quot;</span></span>
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Any endpoint with a method signature containing <code>org.springframework</code> will be ignored.</p>
+</div>
+<div class="paragraph">
+<p>More information will be added as soon as possible.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="aggregation-pact"><a class="anchor" href="#aggregation-pact"></a>4.4. Pact aggregator</h3>
+<div class="paragraph">
+<p>More information will be added as soon as possible.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="aggregation-extending"><a class="anchor" href="#aggregation-extending"></a>4.5. Extending existing aggregators</h3>
+<div class="paragraph">
+<p>More information will be added as soon as possible.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="aggregation-writing-your-own"><a class="anchor" href="#aggregation-writing-your-own"></a>4.6. Writing your own aggregator</h3>
+<div class="paragraph">
+<p>When writing your own aggregator, it is important to understand how <a href="http://reactivex.io/">ReactiveX</a> works.
+We use observables from <a href="https://github.com/ReactiveX/RxJava">RxJava</a> in order to make optimal use of the system resources the microservices-dashboard-server runs on.</p>
+</div>
+<div class="paragraph">
+<p>The <code>NodeAggregator</code> <a href="https://github.com/ordina-jworks/microservices-dashboard-server/blob/master/microservices-dashboard-server/src/main/java/be/ordina/msdashboard/aggregators/NodeAggregator.java">interface</a> exposes a single method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Observable</span>&lt;Node&gt; aggregateNodes();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The easiest way to conform to this interface is to implement whichever logic you like, and in the end map the result to an observable as such:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">return</span> <span class="predefined-type">Observable</span>.from(nodes);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>While this may be the easiest way to implement an aggregator, it probably isn&#8217;t the most optimized way.
+Better would be to embrace observables from the start by using for instance <a href="https://github.com/ReactiveX/RxNetty">RxNetty</a> when you&#8217;re calling external resources to fetch node information.
+You can find examples in the existing out-of-the-box aggregators, and you can reuse the useful <code>NettyServiceCaller</code> <a href="https://github.com/ordina-jworks/microservices-dashboard-server/blob/master/microservices-dashboard-server/src/main/java/be/ordina/msdashboard/aggregators/NettyServiceCaller.java">class</a> to work with observables from the source.</p>
+</div>
+<div class="sect3">
+<h4 id="_dealing_with_exceptions"><a class="anchor" href="#_dealing_with_exceptions"></a>4.6.1. Dealing with exceptions</h4>
+<div class="paragraph">
+<p>When errors occur during the treatment of an observable, its default behaviour is to terminate the emission of more information.
+While this might be desirable when reading a continuous stream of information, in our experience it often doesn&#8217;t really match with our use case.</p>
+</div>
+<div class="paragraph">
+<p>Retrying the observable could seem the right course of action, if it wouldn&#8217;t be for the fact that on retry the observable starts emitting information from the start.
+In other words, in case your observable emitting ten nodes, throws an exception on the fifth node, retrying will re-emit node one until five where it will terminate for the same exception again.</p>
+</div>
+<div class="paragraph">
+<p>The solution to this problem is turning the observable into a hot observable with autoconnection of the first subscriber:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">RxNetty.createHttpRequest(request)
+                .publish()
+                .autoConnect()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or similarly:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Observable</span>.from(discoveryClient.getServices())
+                .subscribeOn(Schedulers.io())
+                .publish()
+                .autoConnect()</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
