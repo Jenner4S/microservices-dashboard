@@ -517,7 +517,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Andreas Evers</span><br>
 <span id="email" class="email"><a href="https://twitter.com/andreasevers">@andreasevers</a></span><br>
 <span id="revnumber">version 0.2.0-SNAPSHOT,</span>
-<span id="revdate">22.07.2016</span>
+<span id="revdate">23.07.2016</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -563,8 +563,14 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#samples">5. Samples</a></li>
+<li><a href="#samples">5. Samples</a>
+<ul class="sectlevel2">
+<li><a href="#samples-simple">5.1. Sample 1: microservices-dashboard-simple</a></li>
+<li><a href="#samples-simple-mocks">5.2. Sample 2: microservices-dashboard-simple-mocks</a></li>
+</ul>
+</li>
 <li><a href="#extending">6. Extending the Microservices Dashboard</a></li>
+<li><a href="#troubleshooting">7. Troubleshooting</a></li>
 </ul>
 </div>
 </div>
@@ -896,7 +902,7 @@ There are other samples available as well. See the <a href="#samples">Samples</a
 </div>
 </li>
 <li>
-<p>Once the clone is complete, you’re ready to get the service up and running:</p>
+<p>Once the clone is complete, you&#8217;re ready to get the service up and running:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">cd microservices-dashboard-server/samples/microservices-dashboard-simple
@@ -1070,10 +1076,26 @@ In other words, in case your observable emitting ten nodes, throws an exception 
 <div class="sectionbody">
 <div class="paragraph">
 <p>In case you simply want to get started with the Microservices Dashboard, you can use a sample to get up an running quickly.
-The basics are described in the <a href="#starting-from-sample">Starting from a sample</a> section.</p>
+The basics - including getting them up and running - are described in the <a href="#starting-from-sample">Starting from a sample</a> section.</p>
+</div>
+<div class="paragraph">
+<p>Currently two working samples are available: simple and simple-mocks.</p>
+</div>
+<div class="sect2">
+<h3 id="samples-simple"><a class="anchor" href="#samples-simple"></a>5.1. Sample 1: microservices-dashboard-simple</h3>
+<div class="paragraph">
+<p>The simple sample is a great way to get up and running quickly without any mocks.
+You can use this as a base for your own version of the microservices-dashboard.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="samples-simple-mocks"><a class="anchor" href="#samples-simple-mocks"></a>5.2. Sample 2: microservices-dashboard-simple-mocks</h3>
+<div class="paragraph">
+<p>This sample builds on top of the simple sample, with mocks enabled.</p>
 </div>
 <div class="paragraph">
 <p>More information will be added as soon as possible.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1082,6 +1104,26 @@ The basics are described in the <a href="#starting-from-sample">Starting from a 
 <div class="sectionbody">
 <div class="paragraph">
 <p>More information will be added as soon as possible.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="troubleshooting"><a class="anchor" href="#troubleshooting"></a>7. Troubleshooting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For remote debugging, run the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">./mvnw install
+java -jar -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005 target/*.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To enable Spring debug logging, add <code><code>--debug</code></code> to the command.</p>
+</div>
+<div class="paragraph">
+<p>Make sure to use actuator endpoints such as <code><code>/autoconfig</code></code> and <code><code>/beans</code></code> for validating the right beans have been loaded.</p>
 </div>
 </div>
 </div>
