@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Msdtopbar } from './topbar/topbar.component';
-
+import { MsdResourceNode } from './visuals/resource-node';
 /*
  * App Component
  * Top Level Component
@@ -11,13 +11,20 @@ import { Msdtopbar } from './topbar/topbar.component';
     styleUrls: [
         './app.style.css'
     ],
-    directives: [Msdtopbar],
+    directives: [Msdtopbar, MsdResourceNode],
     template: `
     <msd-topbar></msd-topbar>
+    <msd-resource-node
+        id="position" 
+        [width]="myWidth" 
+        [height]="410">
+    </msd-resource-node>
+    <input [(ngModel)]="myWidth" type="text" />
   `
 })
 export class App {
+    public myWidth: any;
     ngOnInit() {
-        console.log('Initial App State');
+        this.myWidth = '141';
     }
 }
