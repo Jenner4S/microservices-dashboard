@@ -840,7 +840,7 @@ Deploying the UI separately from the server can be very useful when you want to 
 <p>First a basic build should be done:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="Shell">$ npm install</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">$ npm install</code></pre>
 </div>
 </div>
 </li>
@@ -856,11 +856,26 @@ Deploying the UI separately from the server can be very useful when you want to 
 <p>Use gulp to serve the resources using the configuration file:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">$ gulp serve:conf</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">$ gulp serve --standalone</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>You can configure the location of the dashboard server by modifying the <code>baseUrl</code> in <code>gulp/conf.js</code></p>
 </div>
 </li>
 </ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+If you want to run the UI on an existing server, with potentially another port, execute <code>$ gulp build --standalone</code> and deploy the <code>dist</code> folder on that server.
+</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -900,7 +915,7 @@ There are other samples available as well. See the <a href="#samples">Samples</a
 <p>The first step is to clone the Git repository:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">git clone https://github.com/ordina-jworks/microservices-dashboard-server</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">$ git clone https://github.com/ordina-jworks/microservices-dashboard-server</code></pre>
 </div>
 </div>
 </li>
@@ -908,8 +923,8 @@ There are other samples available as well. See the <a href="#samples">Samples</a
 <p>Once the clone is complete, you&#8217;re ready to get the service up and running:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="shell">cd microservices-dashboard-server/samples/microservices-dashboard-simple
-./mvnw spring-boot:run</code></pre>
+<pre class="CodeRay highlight"><code data-lang="shell">$ cd microservices-dashboard-server/samples/microservices-dashboard-simple
+$ ./mvnw spring-boot:run</code></pre>
 </div>
 </div>
 </li>
