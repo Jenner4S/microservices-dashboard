@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Msdtopbar } from './topbar/topbar.component';
+import { Msdlegend } from './legend/legend.component';
+
 
 /*
  * App Component
@@ -14,6 +16,7 @@ import { Msdtopbar } from './topbar/topbar.component';
     directives: [Msdtopbar],
     template: `
     <msd-topbar></msd-topbar>
+    <msd-legend></msd-legend>
   `
 })
 export class App {
