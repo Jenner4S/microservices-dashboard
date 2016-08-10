@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit, ElementRef, OnChanges } from '@angular/core';
 import * as resourceNodeStyles from './resource-node.styles.css';
 
 @Component({
@@ -8,10 +8,13 @@ import * as resourceNodeStyles from './resource-node.styles.css';
         resourceNodeStyles
     ]
 })
-export class MsdResourceNode implements OnInit {
-    // TODO position text label
-    private _width: string;
-    private _height: string;
+export class MsdResourceNode implements AfterViewInit, OnChanges {
+
+    @ViewChild('label')
+    public label: ElementRef;
+
+    private _width: number;
+    private _height: number;
     private _id: string;
 
     @Input()
@@ -23,25 +26,34 @@ export class MsdResourceNode implements OnInit {
     }
 
     @Input()
-    public set width(v: string) {
+    public set width(v: number) {
         this._width = v;
     }
-    public get width(): string {
+    public get width(): number {
         return this._width;
     }
 
     @Input()
-    public set height(v: string) {
+    public set height(v: number) {
         this._height = v;
     }
 
-    public get height(): string {
+    public get height(): number {
         return this._height;
     }
 
-    constructor() { }
+    public ngAfterViewInit(): void {
+        this.centerElement(this.label.nativeElement);
+    }
 
-    ngOnInit() {
+    public ngOnChanges(): void {
+        this.centerElement(this.label.nativeElement);
+    }
 
+    private centerElement(element: SVGTextElement): void {
+        const x: string = String(this._width / 2 - element.clientWidth / 2);
+        const y: string = String(this._height / 2 + element.clientHeight / 2);
+        element.setAttribute('x', x);
+        element.setAttribute('y', y);
     }
 }

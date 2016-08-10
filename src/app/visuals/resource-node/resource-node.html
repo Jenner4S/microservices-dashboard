@@ -1,7 +1,7 @@
 <svg [id]="id" [attr.width]="width" [attr.height]="height">
     <g>
         <rect [attr.height]="height" [attr.width]="width" />
-        <text [attr.x]="width/2" [attr.y]="height/2" fill="black">
+        <text #label>
             {{id}}
         </text>
     </g>
