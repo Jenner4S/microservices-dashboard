@@ -555,7 +555,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#aggregation-pact">4.1.4. Pact aggregator</a></li>
 </ul>
 </li>
-<li><a href="#aggregation-service-discovery">4.2. Using service discovery</a></li>
+<li><a href="#aggregation-service-discovery">4.2. Using service discovery</a>
+<ul class="sectlevel3">
+<li><a href="#_enabling_service_discovery">4.2.1. Enabling service discovery</a></li>
+</ul>
+</li>
 <li><a href="#aggregation-extending">4.3. Extending existing aggregators</a></li>
 <li><a href="#aggregation-writing-your-own">4.4. Writing your own aggregator</a>
 <ul class="sectlevel3">
@@ -1373,6 +1377,122 @@ $.consumer.name</code></pre>
 <p>We are using the <code>org.springframework.cloud.client.discovery.DiscoveryClient</code> abstraction, which means that we support any implementation of said interface.
 At the time of writing Eureka, Zookeeper and Consul.io are supported, although the Spring Cloud team might add more at any moment.</p>
 </div>
+<div class="sect3">
+<h4 id="_enabling_service_discovery"><a class="anchor" href="#_enabling_service_discovery"></a>4.2.1. Enabling service discovery</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a discovery dependency to your <code>pom.xml</code> file:</p>
+<div class="listingblock primary">
+<div class="title">Eureka</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependencyManagement&gt;</span>
+    <span class="tag">&lt;dependencies&gt;</span>
+        <span class="tag">&lt;dependency&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>spring-cloud-netflix<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>1.1.2.RELEASE<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
+            <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span>
+    <span class="tag">&lt;/dependencies&gt;</span>
+<span class="tag">&lt;/dependencyManagement&gt;</span>
+<span class="tag">&lt;dependencies&gt;</span>
+    <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+<span class="tag">&lt;/dependencies&gt;</span></code></pre>
+</div>
+</div>
+<div class="listingblock secondary">
+<div class="title">Consul</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependencyManagement&gt;</span>
+    <span class="tag">&lt;dependencies&gt;</span>
+        <span class="tag">&lt;dependency&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>spring-cloud-consul-dependencies<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>1.0.1.RELEASE<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
+            <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span>
+    <span class="tag">&lt;/dependencies&gt;</span>
+<span class="tag">&lt;/dependencyManagement&gt;</span>
+<span class="tag">&lt;dependencies&gt;</span>
+    <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>spring-cloud-starter-consul-all<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+<span class="tag">&lt;/dependencies&gt;</span></code></pre>
+</div>
+</div>
+<div class="listingblock tertiary">
+<div class="title">Zookeeper</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependencyManagement&gt;</span>
+    <span class="tag">&lt;dependencies&gt;</span>
+        <span class="tag">&lt;dependency&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>spring-cloud-zookeeper-dependencies<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>1.0.1.RELEASE<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;type&gt;</span>pom<span class="tag">&lt;/type&gt;</span>
+            <span class="tag">&lt;scope&gt;</span>import<span class="tag">&lt;/scope&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span>
+    <span class="tag">&lt;/dependencies&gt;</span>
+<span class="tag">&lt;dependencies&gt;</span>
+    <span class="tag">&lt;dependency&gt;</span>
+        <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
+        <span class="tag">&lt;artifactId&gt;</span>spring-cloud-zookeeper-discovery<span class="tag">&lt;/artifactId&gt;</span>
+    <span class="tag">&lt;/dependency&gt;</span>
+<span class="tag">&lt;/dependencies&gt;</span></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>In case you haven&#8217;t used the default location for your service registry (see Spring Cloud documentation for defaults), you can specify a custom url to the registry:</p>
+<div class="paragraph">
+<div class="title">Eureka</div>
+<p><a href="http://cloud.spring.io/spring-cloud-static/spring-cloud.html#_registering_with_eureka">Registring with Eureka</a></p>
+</div>
+<div class="paragraph">
+<div class="title">Consul</div>
+<p><a href="http://cloud.spring.io/spring-cloud-consul/spring-cloud-consul.html#_registering_with_consul">Registring with Consul</a></p>
+</div>
+<div class="paragraph">
+<div class="title">Zookeeper</div>
+<p><a href="http://cloud.spring.io/spring-cloud-zookeeper/spring-cloud-zookeeper.html#_registering_with_zookeeper">Registring with Zookeeper</a></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In case you&#8217;d like to register the dashboard in the service registry as well, simply add the <code>@EnableEurekaClient</code> annotation to the Microservices Dashboard Server application:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@EnableEurekaClient</span>
+<span class="annotation">@SpringBootApplication</span>
+<span class="annotation">@EnableMicroservicesDashboardServer</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MicroservicesDashboardServerApplication</span> {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+        SpringApplication.run(Application.class, args);
+    }
+}</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="aggregation-extending"><a class="anchor" href="#aggregation-extending"></a>4.3. Extending existing aggregators</h3>
@@ -1445,7 +1565,9 @@ In other words, in case your observable emitting ten nodes, throws an exception 
 <div class="sect1">
 <h2 id="graph-configuration"><a class="anchor" href="#graph-configuration"></a>5. Graph configuration</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>More information will be added as soon as possible.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
