@@ -2,12 +2,12 @@ var webpackConfig = require('./webpack.test');
 
 module.exports = function (config) {
     var _config = {
-        basePath: '',
+        basePath: '../),
 
         frameworks: ['jasmine'],
 
         files: [
-            {pattern: './config/karma-test-shim.js', watched: false}
+            {pattern: './config/karmaconf-test-shim.js', watched: false}
         ],
 
         preprocessors: {
