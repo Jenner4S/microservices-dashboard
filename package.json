@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Microservices dashboard created in Angular",
   "scripts": {
-    "start": "webpack-dev-server --config webpackconf/webpack.dev.js --inline --progress --port 8080",
+    "start": "webpack-dev-server --config webpackconf/webpack.dev.js --inline --progress --port 8081",
     "test": "karma start karmaconf/karma.conf.js",
+    "mock": "json-server mock-backend/db.json",
     "build": "rimraf dist && webpack --config webpackconf/webpack.prod.js --progress --profile --bail"
   },
   "license": "MIT",
@@ -35,6 +36,7 @@
     "html-webpack-plugin": "^2.15.0",
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
+    "json-server": "^0.9.4",
     "karma": "^1.2.0",
     "karma-jasmine": "^1.0.2",
     "karma-phantomjs-launcher": "^1.0.2",
